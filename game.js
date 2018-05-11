@@ -2,7 +2,10 @@
 // 设置背景铺满屏幕
 document.getElementById("wrap").style.height = window.innerHeight + 'px';
 
+var st = document.getElementById("start");
+var sc = document.getElementById("score");
 var table;
+var flag = 1;
 // 初始化方块的图案
 var blocks = [
     // 正方形
@@ -20,15 +23,24 @@ var blocks = [
     // 反7形
     [{x: 4, y: 1},{x: 4, y: 2},{x: 4, y: 0},{x: 5, y: 0}]
 ];
+// 键盘事件
+var keyEvent = {
+	"37" : "left()",
+    "38" : "up()",
+    "39" : "right()",
+    "40" : "down()"
+}
 // 当前方块
 var x = [];
 var y = [];
+
+// 定时器 控制下落速度
 var timer;
 function toGame(){
     // 隐藏登录框
 	document.getElementById("log").style.display = "none";
 	// 显示游戏界面
-	document.getElementById("start").style.display = "inline-block";
+	st.style.display = "inline-block";
 	// 创建游戏背景
     table = document.createElement("table");
     for(var i = 0; i < 16; i++){
@@ -47,10 +59,10 @@ function toGame(){
 
 function startGame(){
 	// 通过透明度隐藏开始按钮 避免回流
-	document.getElementById("start").style.opacity = "0";
+	st.style.opacity = "0";
 	document.getElementById("finish").style.opacity = "0";
-	document.getElementById("score").style.opacity = "0";
-	document.getElementById("start").onclick = "";
+	sc.style.opacity = "0";
+	st.onclick = "";
 	// 清空背景
 	for (var i = 0; i < 16; i++){
 		for (var j = 0; j < 10; j++){
@@ -72,6 +84,7 @@ function go(){
         x[i] = cur.x;
         table.rows[y[i]].cells[x[i]].style.backgroundColor = "#9F9";
     }
+    flag = 1;
     // 开始下落
     timer = setInterval("fallBlock()",500);
 }
@@ -90,10 +103,6 @@ function isOk(blk){
 
 // 方块下落
 function fallBlock(){
-	// 消除当前方块背景色
-	for (var i = 0; i < 4; i++){
-        table.rows[y[i]].cells[x[i]].style.backgroundColor = "#FFF";
-	}
 	// 判断是否到底
 	var canFall = true;
 	for (var i = 0; i < 4; i++){
@@ -120,6 +129,10 @@ function fallBlock(){
 	}
 	// 下落
 	if (canFall) {
+	    // 消除当前方块背景色
+	    for (var i = 0; i < 4; i++){
+            table.rows[y[i]].cells[x[i]].style.backgroundColor = "#FFF";
+	    }
 		for (var i = 0; i < 4; i++){
 			// 全局变量 x 和 y
 			y[i] ++;
@@ -130,11 +143,74 @@ function fallBlock(){
 		go();
 	}
 }
-
 function isOver(){
-	document.getElementById("start").style.opacity = "1";
-	document.getElementById("start").onclick = startGame;
+	st.style.opacity = "1";
+	st.onclick = startGame;
 	document.getElementById("finish").style.opacity = "1";
-	document.getElementById("score").style.opacity = "1";
-	document.getElementById("score").innerHTML = "SCORE: 0";
+	sc.style.opacity = "1";
+	sc.innerHTML = "SCORE: 0";
+	flag = 0;
+}
+
+// 设置键盘事件
+document.onkeydown = function(e){
+	eval(keyEvent[(e? e:event).keyCode]);
+};
+
+function up(){
+    console.log("上");
+}
+function down(){
+	if (flag) {
+		clearInterval(timer);
+        timer = setInterval("fallBlock()",50);
+	}
+}
+function right(){
+	if (flag) {
+		var canRight = true;
+	    // 判断是否可以右移
+	    for (var i = 0; i < 4; i++){
+            var ri = (x[i]+1 < 10)? table.rows[y[i]].cells[x[i]+1].style.backgroundColor : "";
+            if (x[i] == 9 || ri == "rgb(0, 255, 0)") {
+            	canRight = false;
+            }
+	    }
+	    // 右移
+    	if (canRight) {
+	        // 消除当前方块背景色
+        	for (var i = 0; i < 4; i++){
+                table.rows[y[i]].cells[x[i]].style.backgroundColor = "#FFF";
+	        }
+	        // 右移
+	        for (var i = 0; i < 4; i++){
+	        	x[i] ++;
+	        	table.rows[y[i]].cells[x[i]].style.backgroundColor = "#9F9";
+	        }
+	    }
+	}
+}
+function left(){
+	if (flag) {
+        var canLeft = true;
+	    // 判断是否可以右移
+	    for (var i = 0; i < 4; i++){
+            var ri = (x[i]-1 > -1)? table.rows[y[i]].cells[x[i]-1].style.backgroundColor : "";
+            if (x[i] == 0 || ri == "rgb(0, 255, 0)") {
+            	canLeft = false;
+            }
+	    }
+	    // 右移
+	    if (canLeft) {
+	        // 消除当前方块背景色
+        	for (var i = 0; i < 4; i++){
+                table.rows[y[i]].cells[x[i]].style.backgroundColor = "#FFF";
+	        }
+	        // 右移
+	        for (var i = 0; i < 4; i++){
+	        	x[i] --;
+	        	table.rows[y[i]].cells[x[i]].style.backgroundColor = "#9F9";
+	        }
+	    }
+	}
 }
