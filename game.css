@@ -1,0 +1,99 @@
+*,body{
+	margin: 0;
+	padding: 0;
+}
+#wrap{
+	width: 100%;
+	text-align: center;
+	overflow: hidden;
+}
+.box{
+	width: 300px;
+	height: 300px;
+	background-color: #9F9;
+	margin: 0 auto;
+	position: relative;
+	top: 150px;
+	animation:mymove 3s 1;
+	border-radius: 5px;
+}
+@keyframes mymove
+{
+from {top:130px;}
+to {top:150px;}
+}
+.effect2:before, .effect2:after{
+	z-index: -1;
+	position: absolute;
+	content: "";
+    bottom: 15px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width: 300px;
+    background-color: #9F9;
+    box-shadow: 0 15px 10px #777;
+    transform: rotate(-3deg);
+}
+.effect2:after{
+	transform: rotate(3deg);
+	right: 10px;
+	left: auto;
+}
+.h{
+	color: #777;
+	margin: 10px auto;
+	padding: 20px 0;
+}
+.text{
+	background: none;    
+    outline: none;    
+    border: 1px solid #777;
+    border-radius: 3px;
+    height: 30px;
+    width: 200px;
+    margin: 10px auto;
+    padding: 0 3px;
+}
+#login{
+	color: #777;
+}
+.btn{
+    margin: 20px auto;
+}
+.sbm{
+	background: none;
+    outline: none;
+    border: 1px solid #777;
+    border-radius: 3px;
+    width: 100px;
+    height: 30px;
+    margin: 2px;
+}
+#start:hover, #start:visited, .sbm:hover, .sbm:visited{
+    color: #777;
+	background: #7F7; 
+}
+#start{
+	display: none;
+	background: #9F9;
+    outline: none;
+    border: 1px solid #9F9;
+    border-radius: 3px;
+    width: 100px;
+    height: 30px;
+    top: 300px;
+    position: relative;
+}
+#finish,#score{
+	position: relative;
+	display: inline-block;
+	opacity: 0;
+	width: 100%;
+}
+#finish{
+	top: 250px;
+}
+#score{
+	top: 250px;
+}

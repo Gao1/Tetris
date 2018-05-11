@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>俄罗斯方块</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="game.css">
+</head>
+<body>
+    <div id="wrap">
+    	<div id="log" class="box effect2">
+    		<h1 class="h">账号登录</h1>
+            <form method="post" action="#" target="submitFrame">
+                <input type="text" name="id" class="text" placeholder="用户名">
+                <input type="password" name="psw" class="text" placeholder="密   码">
+                <div class="btn">
+                    <input type="submit" name="" value="登  录" class="sbm" onclick="toGame()" onsubmit="return false;">
+                    <input type="submit" name="" value="注  册" class="sbm" onsubmit="return false;">
+                </div>
+            </form>
+            <iframe style="width:0; height:0; margin-top:-10px;" name="submitFrame" src="about:blank"></iframe>
+    	</div>
+        <h1 id="finish">GAME OVER!</h1>
+        <h2 id="score">SCORE</h2>
+        <input type="button" name="" value="开始游戏" id="start" onclick="startGame()">
+    </div>
+	<script type="text/javascript" src="game.js"></script>
+</body>
+</html>
