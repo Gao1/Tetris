@@ -193,20 +193,20 @@ function right(){
 function left(){
 	if (flag) {
         var canLeft = true;
-	    // 判断是否可以右移
+	    // 判断是否可以左移
 	    for (var i = 0; i < 4; i++){
             var ri = (x[i]-1 > -1)? table.rows[y[i]].cells[x[i]-1].style.backgroundColor : "";
             if (x[i] == 0 || ri == "rgb(0, 255, 0)") {
             	canLeft = false;
             }
 	    }
-	    // 右移
+	    // 左移
 	    if (canLeft) {
 	        // 消除当前方块背景色
         	for (var i = 0; i < 4; i++){
                 table.rows[y[i]].cells[x[i]].style.backgroundColor = "#FFF";
 	        }
-	        // 右移
+	        // 左移
 	        for (var i = 0; i < 4; i++){
 	        	x[i] --;
 	        	table.rows[y[i]].cells[x[i]].style.backgroundColor = "#9F9";
