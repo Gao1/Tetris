@@ -4,6 +4,7 @@ document.getElementById("wrap").style.height = window.innerHeight + 'px';
 
 var st = document.getElementById("start");
 var sc = document.getElementById("score");
+var gs = document.getElementById("gameScore");
 var table;
 var score = 0;
 var flag = 1;
@@ -59,7 +60,10 @@ function toGame(){
 }
 
 function startGame(){
+	score = 0;
+	gs.innerHTML = "SCORE:" + score;
 	// 通过透明度隐藏开始按钮 避免回流
+	gs.style.opacity = "1";
 	st.style.opacity = "0";
 	document.getElementById("finish").style.opacity = "0";
 	sc.style.opacity = "0";
@@ -70,7 +74,6 @@ function startGame(){
 			getColor(i,j,"#FFF");
 		}
 	}
-	score = 0;
 	go();
 }
 
@@ -147,6 +150,7 @@ function fallBlock(){
 }
 function isOver(){
 	st.style.opacity = "1";
+	gs.style.opacity = "0";
 	st.onclick = startGame;
 	document.getElementById("finish").style.opacity = "1";
 	sc.style.opacity = "1";
@@ -224,32 +228,39 @@ function left(){
 
 // 判断是否可以消除
 function canRemove(){
-	var remove = true;
+	var remove = new Array();
+	var repeat;
 	// 消除当前行
 	for(var i = 0; i < 4; i++){
+		remove.push(y[i]);
 		for(var j = 0; j < 10; j++){
 			if (getColor(y[i],j) != "rgb(0, 255, 0)") {
-				remove = false;
+				remove.pop(y[i]);
 				break;
 			}
 		}
-		if(remove){
-			score += 10;
-		    for(var j = 0; j < 10; j++){
-		    	getColor(y[i],j,"#FFF");
-		    }
-	        // 上方图案下落
-		    for(var k = y[i]; k >= 0; k--){
-		    	for(var m = 0; m < 10; m++){
-		    		if (getColor(k,m) == "rgb(0, 255, 0)") {
-		    			getColor(k,m,"#FFF");
-		    			getColor(k+1,m,"#0F0");
-		    		}
-		    	}
-		    }
-		}
-		remove = true;
 	}
+	remove.sort();
+	for(var i = 0; i < remove.length; i++){
+		if (remove[i] == repeat) {
+			continue;
+		}
+		score += 10;
+	    for(var j = 0; j < 10; j++){
+	    	getColor(remove[i],j,"#FFF");
+	    }
+	       // 上方图案下落
+	    for(var k = remove[i]; k >= 0; k--){
+	    	for(var m = 0; m < 10; m++){
+	    		if (getColor(k,m) == "rgb(0, 255, 0)") {
+	    			getColor(k,m,"#FFF");
+	    			getColor(k+1,m,"#0F0");
+	    		}
+	    	}
+	    }
+        repeat = remove[i];
+	}
+	gs.innerHTML = "SCORE:" + score;
 }
 
 // 获取或设置背景色
@@ -268,7 +279,7 @@ function rect(){
 		var xx = x[2];
 	    var yy = y[0]+1;
 	    for(var i = 0; i < 2; i++){
-	    	if (yy == 15 || getColor(yy,xx) != "rgb(255, 255, 255)") {
+	    	if (yy > 15 || getColor(yy,xx) != "rgb(255, 255, 255)") {
 	    	    canRotate = false;
 	    	    break;
 	        }
@@ -297,7 +308,7 @@ function rect(){
 		var xx = x[0] - 1;
 		var yy = y[1];
 		for(var i = 0; i < 2; i++){
-	    	if (xx == -1 || getColor(yy,xx) != "rgb(255, 255, 255)") {
+	    	if (xx < 0 || getColor(yy,xx) != "rgb(255, 255, 255)") {
 	    	    canRotate = false;
 	    	    break;
 	        }

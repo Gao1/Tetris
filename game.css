@@ -61,6 +61,10 @@ to {top:150px;}
 .btn{
     margin: 20px auto;
 }
+#start:hover, #start:visited, .sbm:hover, .sbm:visited{
+    color: #777;
+	background: #7F7;
+}
 .sbm{
 	background: none;
     outline: none;
@@ -69,10 +73,6 @@ to {top:150px;}
     width: 100px;
     height: 30px;
     margin: 2px;
-}
-#start:hover, #start:visited, .sbm:hover, .sbm:visited{
-    color: #777;
-	background: #7F7; 
 }
 #start{
 	display: none;
@@ -85,11 +85,14 @@ to {top:150px;}
     top: 300px;
     position: relative;
 }
-#finish,#score{
+#finish,#score,#gameScore{
 	position: relative;
 	display: inline-block;
-	opacity: 0;
+	opacity: 0;	
 	width: 100%;
+}
+#gameScore{
+	z-index: -1;
 }
 #finish{
 	top: 250px;
